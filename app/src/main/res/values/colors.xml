@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="Pantone7545C">#425563</color>
+    <color name="Pantone540C">#003057</color>
+    <color name="Pantone804C">#FFAA4D</color>
+    <color name="Pantone732C">#623412</color>
+    <color name="Pantone471C">#B86125</color>
+    <color name="Pantone649C">#DBE2E9</color>
+</resources>
