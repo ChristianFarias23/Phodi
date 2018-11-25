@@ -36,4 +36,11 @@ dependencies {
     // Lombok Android
     compileOnly "org.projectlombok:lombok:1.18.2"
     annotationProcessor "org.projectlombok:lombok:1.18.2"
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation "com.google.code.gson:gson:2.8.5"
+
+    //JSON Parser
+    implementation "com.googlecode.json-simple:json-simple:1.1"
+
 }
