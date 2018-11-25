@@ -23,6 +23,10 @@ public final class Persona {
         this.oficina = oficina;
     }
 
+    /**
+     * Construye una persona dado un json.
+     * @param obj
+     */
     public Persona(JSONObject obj) {
         try {
             this.id = obj.getInt("id");
@@ -38,6 +42,11 @@ public final class Persona {
         }
     }
 
+    /**
+     * Crea una lista de personas dado un array de jsons.
+     * @param array
+     * @return
+     */
     public static ArrayList<Persona> fromJson(JSONArray array) {
         ArrayList<Persona> personas = new ArrayList<>();
         for (int i = 0; i < array.length(); i++) {

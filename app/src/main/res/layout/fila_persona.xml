@@ -32,15 +32,6 @@
             android:scaleType="fitCenter"
             tools:srcCompat="@drawable/persona_foto_placeholder1" />
 
-        <TextView
-            android:id="@+id/tv_cargo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:text="Cargo"
-            android:textAlignment="center"
-            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,6 +48,14 @@
             android:paddingLeft="5dp"
             android:text="Nombres Apellidos"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_cargo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp"
+            android:text="Cargo" />
 
         <TextView
             android:id="@+id/tv_unidad"
@@ -86,7 +85,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="10dp"
-            android:text="Email" />
+            android:text="Email"
+            android:textStyle="italic" />
 
         <TextView
             android:id="@+id/tv_telefono"
@@ -94,7 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingLeft="10dp"
-            android:text="Telefono" />
+            android:text="Telefono"
+            android:textStyle="italic" />
 
     </LinearLayout>
 </LinearLayout>

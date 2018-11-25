@@ -59,14 +59,20 @@ public final class PersonaAdapter extends BaseAdapter {
 
         // Obtener las referencias a los textViews de la vista que queremos (re)usar.
         TextView tv_nombre = convertView.findViewById(R.id.tv_nombre);
-        TextView tv_telefono = convertView.findViewById(R.id.tv_telefono);
         TextView tv_cargo = convertView.findViewById(R.id.tv_cargo);
+        TextView tv_unidad = convertView.findViewById(R.id.tv_unidad);
+        TextView tv_oficina = convertView.findViewById(R.id.tv_oficina);
+        TextView tv_email = convertView.findViewById(R.id.tv_email);
+        TextView tv_telefono = convertView.findViewById(R.id.tv_telefono);
 
 
         // Llenar los textViews con los datos de la persona (Ejemplo):
         tv_nombre.setText(persona.getNombre());
-        tv_telefono.setText(persona.getTelefono());
         tv_cargo.setText(persona.getCargo());
+        tv_unidad.setText(persona.getUnidad());
+        tv_oficina.setText(persona.getOficina());
+        tv_email.setText(persona.getEmail());
+        tv_telefono.setText(persona.getTelefono());
 
         // Devolver la vista con la informacion de la persona.
         return convertView;
