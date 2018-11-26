@@ -36,7 +36,7 @@ public final class PersonaAdapter extends BaseAdapter {
         this.personas = personas;
     }
 
-    public void cargar(List<Persona> personas){
+    public void cargar(List<Persona> personas) {
         this.personas = personas;
     }
 
@@ -50,7 +50,7 @@ public final class PersonaAdapter extends BaseAdapter {
         return personas.get(position);
     }
 
-    public void ordenarPorNombre(boolean asc){
+    public void ordenarPorNombre(boolean asc) {
         // Ordenamiento descendente.
         if (!asc)
             Collections.sort(this.personas, (p1, p2) -> p1.getNombre().compareToIgnoreCase(p2.getNombre()));
@@ -71,28 +71,46 @@ public final class PersonaAdapter extends BaseAdapter {
         // Obtener a la persona.
         final Persona persona = getItem(position);
 
-        // Inflar la vista.
-        if (convertView == null)
+        PersonaViewHolder holder;
+
+        // Inflar la vista solo si es nula, si no, reutilizarla.
+        if (convertView == null) {
             convertView = inflater.inflate(R.layout.fila_persona, parent, false);
 
-        // Obtener las referencias a los textViews de la vista que queremos (re)usar.
-        TextView tv_nombre = convertView.findViewById(R.id.tv_nombre);
-        TextView tv_cargo = convertView.findViewById(R.id.tv_cargo);
-        TextView tv_unidad = convertView.findViewById(R.id.tv_unidad);
-        TextView tv_oficina = convertView.findViewById(R.id.tv_oficina);
-        TextView tv_email = convertView.findViewById(R.id.tv_email);
-        TextView tv_telefono = convertView.findViewById(R.id.tv_telefono);
+            holder = new PersonaViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (PersonaViewHolder) convertView.getTag();
+        }
 
-
-        // Llenar los textViews con los datos de la persona (Ejemplo):
-        tv_nombre.setText(persona.getNombre());
-        tv_cargo.setText(persona.getCargo());
-        tv_unidad.setText(persona.getUnidad());
-        tv_oficina.setText(persona.getOficina());
-        tv_email.setText(persona.getEmail());
-        tv_telefono.setText(persona.getTelefono());
+        // Llenar los textViews con los datos de la persona:
+        // Si su dato es "null", no mostrarlo.
+        holder.nombre.setText(persona.getNombre().equals("null") ? "Sin Nombre" : persona.getNombre());
+        holder.cargo.setText(persona.getCargo().equals("null") ? "" : persona.getCargo());
+        holder.unidad.setText(persona.getUnidad().equals("null") ? "" : persona.getUnidad());
+        holder.oficina.setText(persona.getOficina().equals("null") ? "" : persona.getOficina());
+        holder.email.setText(persona.getEmail().equals("null") ? "" : persona.getEmail());
+        holder.telefono.setText(persona.getTelefono().equals("null") ? "" : persona.getTelefono());
 
         // Devolver la vista con la informacion de la persona.
         return convertView;
+    }
+
+    private static class PersonaViewHolder {
+        TextView nombre;
+        TextView cargo;
+        TextView unidad;
+        TextView oficina;
+        TextView email;
+        TextView telefono;
+
+        public PersonaViewHolder(View view) {
+            this.nombre = view.findViewById(R.id.tv_nombre);
+            this.cargo = view.findViewById(R.id.tv_cargo);
+            this.unidad = view.findViewById(R.id.tv_unidad);
+            this.oficina = view.findViewById(R.id.tv_oficina);
+            this.email = view.findViewById(R.id.tv_email);
+            this.telefono = view.findViewById(R.id.tv_telefono);
+        }
     }
 }

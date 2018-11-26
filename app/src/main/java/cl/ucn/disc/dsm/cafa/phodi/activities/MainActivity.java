@@ -1,38 +1,18 @@
 package cl.ucn.disc.dsm.cafa.phodi.activities;
 
-import android.app.Person;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.JsonReader;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
-
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
-import android.support.design.widget.Snackbar;
 
 import cl.ucn.disc.dsm.cafa.phodi.R;
 import cl.ucn.disc.dsm.cafa.phodi.adapters.PersonaAdapter;
@@ -61,9 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        // Obtener las personas (Ejemplo):
-        // TODO: Asignar la obtencion de personas a otra clase.
-
+        // Obtener las personas:
         listaInicial = Persona.fromJson(getJsons());
 
         // Crear el adaptador.
@@ -101,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (adapter == null) return false;
+
                 // Si la busqueda esta vacia, entonces mostrar todas las personas.
                 if (newText.isEmpty()){
                     adapter.cargar(listaInicial);

@@ -3,8 +3,6 @@ package cl.ucn.disc.dsm.cafa.phodi.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Console;
 import java.util.ArrayList;
 
 import lombok.Builder;
