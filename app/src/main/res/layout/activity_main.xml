@@ -11,6 +11,9 @@
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/Pantone540C"
+
+
+
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintBottom_toTopOf="@+id/lv_personas"
@@ -22,6 +25,7 @@
         app:title="@string/app_name"
         app:titleTextAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
         app:titleTextColor="@color/Pantone649C" />
+
 
     <ListView
         android:id="@+id/lv_personas"

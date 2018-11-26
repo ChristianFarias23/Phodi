@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+    <item
+        android:id="@+id/item2_buscar"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:iconTint="@color/Pantone649C"
+        android:title="Buscar"
+        app:actionViewClass="android.widget.SearchView"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item1_ordenar"
+        android:icon="@drawable/ic_sort"
+        android:title="Ordenar por..."
+        app:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/item11_por_id"
+                android:title="ID"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/item11_por_nombre"
+                android:title="Nombre"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/item11_por_email"
+                android:title="Email"
+                app:showAsAction="never" />
+
+        </menu>
+    </item>
+
+</menu>
