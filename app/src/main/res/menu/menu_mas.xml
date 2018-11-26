@@ -16,18 +16,13 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/item11_por_id"
-                android:title="ID"
+                android:id="@+id/item11_nombre_desc"
+                android:title="Descendente (A-Z)"
                 app:showAsAction="never" />
 
             <item
-                android:id="@+id/item11_por_nombre"
-                android:title="Nombre"
-                app:showAsAction="never" />
-
-            <item
-                android:id="@+id/item11_por_email"
-                android:title="Email"
+                android:id="@+id/item11_nombre_asc"
+                android:title="Ascendente (Z-A)"
                 app:showAsAction="never" />
 
         </menu>

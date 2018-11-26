@@ -1,14 +1,19 @@
 package cl.ucn.disc.dsm.cafa.phodi.activities;
 
 import android.app.Person;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.JsonReader;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -25,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import android.support.design.widget.Snackbar;
 
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private PersonaAdapter adapter;
 
+    ArrayList<Persona> listaInicial;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,9 +64,11 @@ public class MainActivity extends AppCompatActivity {
         // Obtener las personas (Ejemplo):
         // TODO: Asignar la obtencion de personas a otra clase.
 
+        listaInicial = Persona.fromJson(getJsons());
+
         // Crear el adaptador.
         if (this.adapter == null)
-            this.adapter = new PersonaAdapter(this, Persona.fromJson(getJsons()));
+            this.adapter = new PersonaAdapter(this, listaInicial);
 
         // Asignar el adaptador al listView de la main activity.
         listView = findViewById(R.id.lv_personas);
@@ -80,20 +90,51 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mas, menu);
 
+        // El buscador que se encuentra en el toolbar.
+        MenuItem buscador = menu.findItem(R.id.item2_buscar);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(buscador);
+
+        // Se le agrega un listener.
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {return true;}
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Si la busqueda esta vacia, entonces mostrar todas las personas.
+                if (newText.isEmpty()){
+                    adapter.cargar(listaInicial);
+                    //listView.setAdapter(adapter);
+                }else {
+                    // Si contiene algo, buscar alguna persona con ese nombre.
+                    ArrayList<Persona> tempPersonas = new ArrayList<>();
+                    for (Persona p : listaInicial) {
+                        if (p.getNombre().toLowerCase().contains(newText.toLowerCase())) {
+                            tempPersonas.add(p);
+                        }
+                    }
+                    adapter.cargar(tempPersonas);
+                    //listView.setAdapter(adapter);
+                }
+                // Notificar al adaptador que los datos han cambiado.
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        });
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.item11_por_id:
-                Toast.makeText(getApplicationContext(), "Ordenando por ID... ", Toast.LENGTH_SHORT).show();
+            case R.id.item11_nombre_asc:
+                Toast.makeText(getApplicationContext(), "Ordenando...", Toast.LENGTH_SHORT).show();
+                adapter.ordenarPorNombre(true);
                 break;
-            case R.id.item11_por_nombre:
-                Toast.makeText(getApplicationContext(), "Ordenando por Nombre... ", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.item11_por_email:
-                Toast.makeText(getApplicationContext(), "Ordenando por Email... ", Toast.LENGTH_SHORT).show();
+            case R.id.item11_nombre_desc:
+                Toast.makeText(getApplicationContext(), "Ordenando...", Toast.LENGTH_SHORT).show();
+                adapter.ordenarPorNombre(false);
                 break;
             default:
                 break;
