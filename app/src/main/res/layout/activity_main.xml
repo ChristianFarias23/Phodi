@@ -10,20 +10,16 @@
         android:id="@+id/my_toolbar"
         android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
+
         android:background="@color/Pantone540C"
-
-
-
         android:elevation="4dp"
+        android:fontFamily="@font/myriadpro_regular"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintBottom_toTopOf="@+id/lv_personas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:fontFamily="@font/myriadpro_regular"
-        app:title="@string/app_name"
-        app:titleTextAppearance="@style/Base.TextAppearance.Widget.AppCompat.Toolbar.Title"
+        app:title="Phodi: Directorio Telefonico UCN"
         app:titleTextColor="@color/Pantone649C" />
 
 

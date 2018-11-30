@@ -49,6 +49,7 @@
             android:fontFamily="@font/myriadpro"
             android:paddingLeft="5dp"
             android:text="Nombres Apellidos"
+            android:textColor="@color/Pantone471C"
             android:textStyle="bold" />
 
         <TextView

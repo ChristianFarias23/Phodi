@@ -1,5 +1,7 @@
 package cl.ucn.disc.dsm.cafa.phodi.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -16,10 +20,10 @@ import java.util.ArrayList;
 
 import cl.ucn.disc.dsm.cafa.phodi.R;
 import cl.ucn.disc.dsm.cafa.phodi.adapters.PersonaAdapter;
+import cl.ucn.disc.dsm.cafa.phodi.adapters.PersonaViewHolder;
 import cl.ucn.disc.dsm.cafa.phodi.models.Persona;
 
 public class MainActivity extends AppCompatActivity {
-    // TODO: Implementar lectura de JSON, Optimizar MainActivity (onCreate), Utilizar fuente Myriad.
 
     /**
      * El listView que muestra a las personas.
@@ -31,7 +35,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private PersonaAdapter adapter;
 
-    ArrayList<Persona> listaInicial;
+    /**
+     * La lista inicial de personas.
+     */
+    static ArrayList<Persona> listaInicial;
+
+    // Necesarios para copiar al portapapeles.
+    private ClipboardManager myClipboard;
+    private ClipData myClip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,29 +53,59 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         // Obtener las personas:
-        listaInicial = Persona.fromJson(getJsons());
+        if (savedInstanceState == null){
+            listaInicial = Persona.fromJson(getJsons());
+        }
 
         // Crear el adaptador.
-        if (this.adapter == null)
+        if (this.adapter == null) {
             this.adapter = new PersonaAdapter(this, listaInicial);
+            adapter.ordenarPorNombre(false);
+        }
 
         // Asignar el adaptador al listView de la main activity.
         listView = findViewById(R.id.lv_personas);
         listView.setAdapter(adapter);
 
+        // Agregar un listener a la listview.
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Obtener nombre y telefono del item seleccionado.
+                PersonaViewHolder personaSelected = ((PersonaViewHolder)view.getTag());
+                String pNombre = personaSelected.getNombre().getText().toString();
+                String pTelefono = personaSelected.getTelefono().getText().toString();
+
+                if (!pTelefono.equals("Telefono no disponible")) {
+                    // Obtener solo el numero.
+                    pTelefono = pTelefono.substring(5);
+                    if (pTelefono.length() > 12)
+                        pTelefono = pTelefono.substring(0, 13);
+
+                    // Copiar al portapapeles.
+                    myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    myClip = ClipData.newPlainText("Telefono", pTelefono);
+                    myClipboard.setPrimaryClip(myClip);
+                    Toast.makeText(MainActivity.this, "Se ha copiado el Telefono de " + pNombre, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Telefono no disponible", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         if (this.adapter != null && this.adapter.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Cargando lista... ", Toast.LENGTH_LONG).show();
-
+            Toast.makeText(getApplicationContext(), "Cargando lista... ", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflar el menu de opciones.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_mas, menu);
 
@@ -84,9 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 // Si la busqueda esta vacia, entonces mostrar todas las personas.
                 if (newText.isEmpty()){
                     adapter.cargar(listaInicial);
-                    //listView.setAdapter(adapter);
                 }else {
-                    // Si contiene algo, buscar alguna persona con ese nombre.
+                    // Si contiene algo, buscar todas las personas que coincidan.
                     ArrayList<Persona> tempPersonas = new ArrayList<>();
                     for (Persona p : listaInicial) {
                         if (p.getNombre().toLowerCase().contains(newText.toLowerCase())) {
@@ -94,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                     adapter.cargar(tempPersonas);
-                    //listView.setAdapter(adapter);
                 }
                 // Notificar al adaptador que los datos han cambiado.
                 adapter.notifyDataSetChanged();
@@ -107,14 +146,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Se puede expandir para mas opciones, por ahora solo existe ordenamiento por nombre.
         switch(item.getItemId()){
             case R.id.item11_nombre_asc:
                 Toast.makeText(getApplicationContext(), "Ordenando...", Toast.LENGTH_SHORT).show();
                 adapter.ordenarPorNombre(true);
+                adapter.notifyDataSetChanged();
                 break;
             case R.id.item11_nombre_desc:
                 Toast.makeText(getApplicationContext(), "Ordenando...", Toast.LENGTH_SHORT).show();
                 adapter.ordenarPorNombre(false);
+                adapter.notifyDataSetChanged();
                 break;
             default:
                 break;

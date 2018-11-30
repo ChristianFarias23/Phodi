@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import java.util.Collections;
 import java.util.List;
@@ -36,20 +35,37 @@ public final class PersonaAdapter extends BaseAdapter {
         this.personas = personas;
     }
 
+    /**
+     * Carga una lista de personas al adaptador.
+     * @param personas
+     */
     public void cargar(List<Persona> personas) {
         this.personas = personas;
     }
 
+    /**
+     * Obtiene la cantidad de personas que contiene este adaptador.
+     * @return
+     */
     @Override
     public int getCount() {
         return personas.size();
     }
 
+    /**
+     * Obtiene la persona en la posicion especificada.
+     * @param position
+     * @return la persona.
+     */
     @Override
     public Persona getItem(int position) {
         return personas.get(position);
     }
 
+    /**
+     * Ordena la lista por nombre.
+     * @param asc : Ascendente o Descendente.
+     */
     public void ordenarPorNombre(boolean asc) {
         // Ordenamiento descendente.
         if (!asc)
@@ -57,10 +73,13 @@ public final class PersonaAdapter extends BaseAdapter {
         else
             //Ordenamiento ascendente.
             Collections.sort(this.personas, (p1, p2) -> p2.getNombre().compareToIgnoreCase(p1.getNombre()));
-
-        this.notifyDataSetChanged();
     }
 
+    /**
+     * Obtiene el id de la persona en la posicion especificada.
+     * @param position
+     * @return el id de la persona.
+     */
     @Override
     public long getItemId(int position) {
         return personas.get(position).getId();
@@ -85,32 +104,14 @@ public final class PersonaAdapter extends BaseAdapter {
 
         // Llenar los textViews con los datos de la persona:
         // Si su dato es "null", no mostrarlo.
-        holder.nombre.setText(persona.getNombre().equals("null") ? "Sin Nombre" : persona.getNombre());
-        holder.cargo.setText(persona.getCargo().equals("null") ? "" : persona.getCargo());
-        holder.unidad.setText(persona.getUnidad().equals("null") ? "" : persona.getUnidad());
-        holder.oficina.setText(persona.getOficina().equals("null") ? "" : persona.getOficina());
-        holder.email.setText(persona.getEmail().equals("null") ? "" : persona.getEmail());
-        holder.telefono.setText(persona.getTelefono().equals("null") ? "" : persona.getTelefono());
+        holder.getNombre().setText(persona.getNombre().equals("null") ? "Nombre no disponible" : persona.getNombre());
+        holder.getCargo().setText(persona.getCargo().equals("null") ? "Cargo no disponible" : persona.getCargo());
+        holder.getUnidad().setText(persona.getUnidad().equals("null") ? "Unidad no disponible" : persona.getUnidad());
+        holder.getOficina().setText(persona.getOficina().equals("null") ? "Oficina no disponible" : persona.getOficina());
+        holder.getEmail().setText(persona.getEmail().equals("null") ? "Email no disponible" : persona.getEmail());
+        holder.getTelefono().setText(persona.getTelefono().equals("null") ? "Telefono no disponible" : persona.getTelefono());
 
         // Devolver la vista con la informacion de la persona.
         return convertView;
-    }
-
-    private static class PersonaViewHolder {
-        TextView nombre;
-        TextView cargo;
-        TextView unidad;
-        TextView oficina;
-        TextView email;
-        TextView telefono;
-
-        public PersonaViewHolder(View view) {
-            this.nombre = view.findViewById(R.id.tv_nombre);
-            this.cargo = view.findViewById(R.id.tv_cargo);
-            this.unidad = view.findViewById(R.id.tv_unidad);
-            this.oficina = view.findViewById(R.id.tv_oficina);
-            this.email = view.findViewById(R.id.tv_email);
-            this.telefono = view.findViewById(R.id.tv_telefono);
-        }
     }
 }
